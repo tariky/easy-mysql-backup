@@ -17,7 +17,7 @@ const { databases, emailFrom, emailSubject, emailText, emailTo, sendgridApi } =
   config;
 
 // Setup SendGrid API
-sgMail.setApiKey(config.sendgridApi);
+sgMail.setApiKey(sendgridApi);
 
 async function renderArt() {
   await new Promise((resolve, reject) => {
@@ -102,7 +102,7 @@ async function sendEmailWithSnapshots() {
     });
 }
 
-cron.schedule('* 6,18 * * *', async () => {
+cron.schedule(config.cron, async () => {
   console.log('will execute two minute until stopped');
   await renderArt();
   await dumpAllDatabases();

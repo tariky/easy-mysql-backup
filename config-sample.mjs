@@ -5,6 +5,7 @@ const config = {
     emailText: "Database is backed-up!",
     sendgridApi: "XXXXXXX",
     databases: ["test", "test2"],
+    cron: "* * * * *"
 }
 
 export default config;

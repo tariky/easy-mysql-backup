@@ -23,6 +23,7 @@ const config = {
     emailText: "Hurray! New backup is completed! 😺",
     sendgridApi: "XXXXXXX",
     databases: ["test", "test2"],
+    cron: "* * * * *"
 }
 ```
 Every property name is self explanatory. Just make sure you put database name in databases array.
@@ -34,5 +35,9 @@ user=root
 password=123456789
 ```
 This file will be used to connect with you MySQL server. user = username, password = password.
+
+## How to configure CRON (schedule)
+
+This project use node-cron library for CRON jobs. You just need to configure cron property in config.mjs. For format and more info visit [node-cron](https://github.com/node-cron/node-cron)
 
 Wanna buy me coffee? [BUY COFFEE](https://www.buymeacoffee.com/tariky).

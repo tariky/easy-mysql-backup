@@ -44,11 +44,15 @@ async function renderArt() {
 async function dumpAllDatabases() {
   const promiseArray = databases.map(async (database) => {
     const dbSpinner = ora("Backing up database...").start();
-    await promisedExec(
+    const {stderr, stdout} = await promisedExec(
       `mysqldump --defaults-extra-file=./mysql-config.cnf -u root ${database} > snapshots/snapshot-${database}-${nanoid(
         6
       )}.sql`
     );
+    if(stderr) {
+      console.log(stderr);
+      console.log(stdout);
+    }
     dbSpinner.stopAndPersist({
       text: `Backup completed - Database: ${database}`,
       symbol: "✅",
@@ -116,8 +120,9 @@ async function sendEmailWithSnapshots() {
     });
 }
 
+const cronSpinner = ora("Waiting for CRON job to start").start();
 cron.schedule(config.cron, async () => {
-  console.log("will execute two minute until stopped");
+  cronSpinner.clear();
   await renderArt();
   await dumpAllDatabases();
   await zipFiles();

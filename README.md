@@ -23,6 +23,7 @@ const config = {
     emailText: "Hurray! New backup is completed! 😺",
     sendgridApi: "XXXXXXX",
     databases: ["test", "test2"],
+    dbUser: "root",
     cron: "* * * * *"
 }
 ```

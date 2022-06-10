@@ -13,7 +13,7 @@ import cron from "node-cron";
 const promisedExec = util.promisify(exec);
 
 const log = console.log;
-const { databases, emailFrom, emailSubject, emailText, emailTo, sendgridApi } =
+const { databases, emailFrom, emailSubject, emailText, emailTo, sendgridApi, dbUser } =
   config;
 
 // Setup SendGrid API
@@ -45,7 +45,7 @@ async function dumpAllDatabases() {
   const promiseArray = databases.map(async (database) => {
     const dbSpinner = ora("Backing up database...").start();
     const {stderr, stdout} = await promisedExec(
-      `mysqldump --defaults-extra-file=./mysql-config.cnf -u root ${database} > snapshots/snapshot-${database}-${nanoid(
+      `mysqldump --defaults-extra-file=./mysql-config.cnf -u ${dbUser} ${database} > snapshots/snapshot-${database}-${nanoid(
         6
       )}.sql`
     );
@@ -120,9 +120,8 @@ async function sendEmailWithSnapshots() {
     });
 }
 
-const cronSpinner = ora("Waiting for CRON job to start").start();
+console.log("Waiting CRON job to start");
 cron.schedule(config.cron, async () => {
-  cronSpinner.clear();
   await renderArt();
   await dumpAllDatabases();
   await zipFiles();

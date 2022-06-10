@@ -19,19 +19,27 @@ const { databases, emailFrom, emailSubject, emailText, emailTo, sendgridApi } =
 // Setup SendGrid API
 sgMail.setApiKey(sendgridApi);
 
+function checkIfSnapshotsDirExist() {
+  if (fsExtra.existsSync("snapshots")) {
+    return;
+  } else {
+    fsExtra.mkdirSync("snapshots");
+  }
+}
+checkIfSnapshotsDirExist();
+
 async function renderArt() {
   await new Promise((resolve, reject) => {
     console.clear();
     figlet("EMdB", function (err, data) {
       if (err) {
-        reject("Something went wrong...")
+        reject("Something went wrong...");
         return;
       }
       resolve(log(data));
-    });  
-  })
+    });
+  });
 }
-
 
 async function dumpAllDatabases() {
   const promiseArray = databases.map(async (database) => {
@@ -41,7 +49,10 @@ async function dumpAllDatabases() {
         6
       )}.sql`
     );
-    dbSpinner.stopAndPersist({ text: `Backup completed - Database: ${database}`, symbol: "✅" })
+    dbSpinner.stopAndPersist({
+      text: `Backup completed - Database: ${database}`,
+      symbol: "✅",
+    });
   });
   await Promise.all(promiseArray);
 }
@@ -57,7 +68,7 @@ async function zipFiles() {
       }
       resolve();
     });
-    zipSpinner.stopAndPersist({ text: "Zip archive created", symbol: "🗄️" })
+    zipSpinner.stopAndPersist({ text: "Zip archive created", symbol: "🗄️" });
   });
 }
 
@@ -65,14 +76,14 @@ async function deleteSnapshotFolder() {
   const deleteOra = ora("Deleting snapshots...").start();
   await new Promise((resolve, reject) => {
     fsExtra.emptyDir("./snapshots", () => {
-      deleteOra.stopAndPersist({ text: "All snapshots deleted", symbol: "🗑️" })
+      deleteOra.stopAndPersist({ text: "All snapshots deleted", symbol: "🗑️" });
       resolve();
     });
   });
 }
 
 async function sendEmailWithSnapshots() {
-  const spinner = ora('Sending E-Mail...').start();
+  const spinner = ora("Sending E-Mail...").start();
   const pathToAttachment = `./snapshots.zip`;
   const attachment = fsExtra.readFileSync(pathToAttachment).toString("base64");
 
@@ -95,7 +106,10 @@ async function sendEmailWithSnapshots() {
   sgMail
     .send(msg)
     .then(() => {
-      spinner.stopAndPersist({ text: `E-Mail with backup sended to: ${emailTo}`, symbol: "📧" })
+      spinner.stopAndPersist({
+        text: `E-Mail with backup sended to: ${emailTo}`,
+        symbol: "📧",
+      });
     })
     .catch((error) => {
       console.error(error);
@@ -103,7 +117,7 @@ async function sendEmailWithSnapshots() {
 }
 
 cron.schedule(config.cron, async () => {
-  console.log('will execute two minute until stopped');
+  console.log("will execute two minute until stopped");
   await renderArt();
   await dumpAllDatabases();
   await zipFiles();

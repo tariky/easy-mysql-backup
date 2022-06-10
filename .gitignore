@@ -1,0 +1,4 @@
+**/node_modules
+mysql-config.cnf
+config.mjs
+snapshots.zip

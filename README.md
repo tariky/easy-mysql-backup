@@ -7,6 +7,9 @@ Main reason I created this project is lack of good and easy solution for MySQL b
 
 For email sending service I use SendGrid. They have free plan with 100/emails per day. This is more then enough for me. If you choose to use SendGrid just create free account and get API key.
 > Just note that SendGrid recommend that your attachments do not exceed 10MB.
+
+[Create SendGrid account](https://signup.sendgrid.com/)
+
 ## How to configure application
 
 You can find files config-sample.mjs and mysql-config-sample.cnf in main directory. After cloning this repo rename config-sample.mjs to config.mjs and mysql-config-sample.cnf to mysql-config.cnf. This is very important becouse main app is using data from those files.

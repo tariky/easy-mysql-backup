@@ -1,14 +1,6 @@
 # 💽 Easy MySQL Backup
 
-This software creates snapshots of databases you define in config file. After that is creates .zip archive with all snapshots and finally it sends it to your e-mail.
-It sends email's with intervals you define in config file.
-
-Main reason I created this project is lack of good and easy solution for MySQL backup. 
-
-For email sending service I use SendGrid. They have free plan with 100/emails per day. This is more then enough for me. If you choose to use SendGrid just create free account and get API key.
-> Just note that SendGrid recommend that your attachments do not exceed 10MB.
-
-[Create SendGrid account](https://signup.sendgrid.com/)
+This software creates snapshots of databases you define in config file. After that is creates .zip archive with all snapshots and finally it sends to offsite server.
 
 ## How to configure application
 
@@ -17,15 +9,19 @@ You can find files config-sample.mjs and mysql-config-sample.cnf in main directo
 config.mjs
 ```javascript
 const config = {
-    emailTo: "lorem@ipsum.com",
-    emailFrom: "lorem@ipsum.com",
-    emailSubject: "DB Backup",
-    emailText: "Hurray! New backup is completed! 😺",
-    sendgridApi: "XXXXXXX",
-    databases: ["test", "test2"],
-    dbUser: "root",
-    cron: "* * * * *"
-}
+    // All databases you want to backup
+	databases: ["test"],
+    // Database username
+	dbUser: "root",
+    // Token for secure upload
+    // Make sure that both reciever side and sender 
+    // side have same token
+	uploadToken: "123",
+    // Just put offsite server domain or ip address
+	offSiteAddress: "localhost:5000",
+    // Define backup interval - see bree documentation for more info
+    breeInterval: "1m",
+};
 ```
 Every property name is self explanatory. Just make sure you put database name in databases array.
 
@@ -37,8 +33,18 @@ password=123456789
 ```
 This file will be used to connect with you MySQL server. user = username, password = password.
 
-## How to configure CRON (schedule)
+## How to configure bree intervals
 
-This project use node-cron library for CRON jobs. You just need to configure cron property in config.mjs. For format and more info visit [node-cron](https://github.com/node-cron/node-cron)
+To configure backup transfer intervals check bree documentation and just update config file with iterval you want to use. [Bree documentation](https://jobscheduler.net)
+
+## Changelog
+
+First version was using email as a way to transfer backup, but becouse backup can be bigger then 15mb, I decided to rewrite app so it can use sender/receiver for backup transfer.
+
+2.0 [22.07.2022]
+- Removed email support
+- Added sender/reciever backup method
+- node-cron removed
+- bree is used for backup intervals
 
 Wanna buy me coffee? [BUY COFFEE](https://www.buymeacoffee.com/tariky).

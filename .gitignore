@@ -2,3 +2,4 @@
 mysql-config.cnf
 config.mjs
 snapshots.zip
+.DS_Store

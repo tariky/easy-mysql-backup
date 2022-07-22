@@ -1,12 +1,9 @@
 const config = {
-    emailTo: "lorem@ipsum.com",
-    emailFrom: "lorem@ipsum.com",
-    emailSubject: "DB Backup",
-    emailText: "Database is backed-up!",
-    sendgridApi: "XXXXXXX",
-    databases: ["test", "test2"],
-    dbUser: "root",
-    cron: "* * * * *"
-}
+	databases: ["test"],
+	dbUser: "root",
+	uploadToken: "123",
+	offSiteAddress: "localhost:5000",
+	breeInterval: "at 04:00 pm",
+};
 
 export default config;

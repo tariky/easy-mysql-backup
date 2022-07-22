@@ -1,23 +1,33 @@
 {
-  "name": "easy-mysql-backup",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@sendgrid/mail": "^7.7.0",
-    "adm-zip": "^0.5.9",
-    "dayjs": "^1.11.3",
-    "figlet": "^1.5.2",
-    "fs-extra": "^10.1.0",
-    "nanoid": "^4.0.0",
-    "node-cron": "^3.0.1",
-    "ora": "^6.1.0",
-    "uuid": "^8.3.2"
-  }
+	"name": "easy-mysql-backup",
+	"version": "2.0.0",
+	"description": "",
+	"main": "sender.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"@ladjs/graceful": "^3.0.2",
+		"@sendgrid/mail": "^7.7.0",
+		"adm-zip": "^0.5.9",
+		"axios": "^0.27.2",
+		"bree": "^9.1.1",
+		"cabin": "^9.1.2",
+		"dayjs": "^1.11.3",
+		"express": "^4.18.1",
+		"figlet": "^1.5.2",
+		"form-data": "^4.0.0",
+		"fs-extra": "^10.1.0",
+		"mime-types": "^2.1.35",
+		"ms": "^2.1.3",
+		"multer": "^1.4.5-lts.1",
+		"nanoid": "^4.0.0",
+		"node-cron": "^3.0.1",
+		"ora": "^6.1.0",
+		"path": "^0.12.7",
+		"uuid": "^8.3.2"
+	}
 }
